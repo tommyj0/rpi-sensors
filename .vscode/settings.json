@@ -1,5 +1,6 @@
 {
   "files.associations": {
-    "tcs.h": "c"
+    "tcs.h": "c",
+    "unistd.h": "c"
   }
 }
