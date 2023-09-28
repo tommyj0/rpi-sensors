@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <../include/tof.h>
+#include "tof.h"
 #include <unistd.h>
 
 int main(){

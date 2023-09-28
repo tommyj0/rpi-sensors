@@ -2,6 +2,6 @@
 
 set +xe
 
-gcc src/*.c -I include -o bin/output
+gcc *.c -Wall -Wextra -o output 
 
 ./bin/output

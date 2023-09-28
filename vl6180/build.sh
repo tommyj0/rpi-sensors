@@ -2,5 +2,5 @@
 
 set -xe
 
-gcc src/*.c -I include -o bin/output
+gcc src/*.c main.c -o output
 ./bin/output

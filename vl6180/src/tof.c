@@ -7,8 +7,6 @@
 #include <unistd.h>
 #include <stdio.h>
 
-
-
 int read_byte(int handle, int reg){
     char data_write[2];
     char data_read[1];

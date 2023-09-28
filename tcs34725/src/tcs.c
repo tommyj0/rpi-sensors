@@ -10,33 +10,18 @@
 #include <linux/ioctl.h>
 #include <linux/types.h>
 #include <linux/i2c-dev.h>
-
-#define I2C_DEVICE          "/dev/i2c-1"
-#define TCS_ADDR            (0x29)
-#define ID_REG              (0x12)
-#define ENABLE              (0x80)
-#define ENABLE_PON          (0x01)
-#define ENABLE_AEN          (0x02)
-#define ENABLE_BOTH         (0x03)
-#define ATIME               (0x81)
-#define WTIME               (0x83)
-#define CONTROL             (0x8F)
-#define DATA                (0x94)
-
+#include "tcs.h"
 
 int fd;
-int ret;
 uint8_t reg[1] = {0x94};
 uint8_t data[8] = {0};
 uint8_t buff[2];
-uint16_t temp_reading;
-uint8_t looper;
 int cData;
 int red;
 int green;
 int blue;
 
-int main(void) {
+void init() {
     // SETUP SHIT
     fd = open(I2C_DEVICE, O_RDWR);
     if(fd < 0) {
@@ -80,6 +65,8 @@ int main(void) {
         printf("CONTROL INITIATION FAILED\r\n");
         exit(EXIT_FAILURE);
     }
+}
+uint8_t get_data(){
     for (int i; i < 500; ++i){
     	write(fd, reg, 1);
 
@@ -88,6 +75,7 @@ int main(void) {
     		printf("Erorr : Input/output Erorr \n");
             exit(EXIT_FAILURE);
     	}
+
     	cData = ((data[1] << 8) | data[0]);
     	red = ((data[3] << 8) | data[2]);
     	green = ((data[5] << 8) | data[4]);

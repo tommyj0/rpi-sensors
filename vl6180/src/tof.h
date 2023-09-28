@@ -1,5 +1,4 @@
-#ifndef TOF_H
-#define TOF_H
+#pragma once
 #define VL6180_DEFAULT_ADDR 0x29
 
 ///Initialize a vl6180 sensor on the i2c bus configured at the specified address
@@ -30,4 +29,3 @@ int get_distance(int handle);
 /// \param scaling Index of the scaling mode to use
 void set_scaling(int handle, int scaling);
 
-#endif
