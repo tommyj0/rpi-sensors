@@ -25,7 +25,7 @@ void i2c_write (int fd, uint8_t buff[4], int bytes){
   }
 }
 
-void init () {
+void init_TCS () {
   // SETUP SHIT
   fd = open (I2C_DEVICE, O_RDWR);
   if (fd < 0)
@@ -60,12 +60,12 @@ void init () {
 
   i2c_write(fd,buff,2);
 }
-void clean(void) {
+void clean_TCS(void) {
   close(fd);
 }
 
-int get_data (uint16_t * c, uint16_t * r, uint16_t * g, uint16_t * b) {
-  init();
+int get_RGB_data (uint16_t * c, uint16_t * r, uint16_t * g, uint16_t * b) {
+  init_TCS();
   usleep(5);
 
   write (fd, reg, 1);
@@ -81,7 +81,7 @@ int get_data (uint16_t * c, uint16_t * r, uint16_t * g, uint16_t * b) {
   *g = ((data[5] << 8) | data[4]);
   *b = ((data[7] << 8) | data[6]);
 
-  clean();
+  clean_TCS();
 
   return 1;
 }
