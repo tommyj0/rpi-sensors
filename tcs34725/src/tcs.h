@@ -1,4 +1,17 @@
 #pragma once
+#include <errno.h>
+#include <fcntl.h>
+#include <linux/i2c-dev.h>
+#include <linux/ioctl.h>
+#include <linux/types.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 #define I2C_DEVICE          "/dev/i2c-1"
 #define TCS_ADDR            (0x29)
 #define ID_REG              (0x12)
@@ -13,4 +26,6 @@
 
 void init(void);
 
-uint8_t get_data(void);
+int get_data(uint16_t*,uint16_t*, uint16_t*, uint16_t*);
+
+void clean(void);

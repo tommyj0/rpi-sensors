@@ -1,7 +1,7 @@
 #!/bin/bash
 
-set +xe
+set -xe
 
-gcc *.c -Wall -Wextra -o output 
+gcc *.c ./src/*.c -Wall -Wextra -o output -I ./src
 
-./bin/output
+./output

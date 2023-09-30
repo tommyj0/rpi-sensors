@@ -13,16 +13,15 @@
 #include <unistd.h>
 
 int fd;
-uint8_t reg[1] = { 0x94 };
-uint8_t data[8] = { 0 };
+uint8_t reg[1] = {0x94};
+uint8_t data[8] = {0};
 uint8_t buff[2];
 int cData;
-int red;
-int green;
-int blue;
+// uint16_t red;
+// uint16_t green;
+// uint16_t blue;
 
-void
-init ()
+void init ()
 {
   // SETUP SHIT
   fd = open (I2C_DEVICE, O_RDWR);
@@ -74,42 +73,25 @@ init ()
       exit (EXIT_FAILURE);
     }
 }
-uint8_t
-get_data ()
-{
-  for (int i; i < 500; ++i)
+
+int get_data (uint16_t * c, uint16_t * r, uint16_t * g, uint16_t * b) {
+
+  write (fd, reg, 1);
+
+  if (read (fd, data, 8) != 8)
     {
-      write (fd, reg, 1);
-
-      if (read (fd, data, 8) != 8)
-        {
-          printf ("Erorr : Input/output Erorr \n");
-          exit (EXIT_FAILURE);
-        }
-
-      cData = ((data[1] << 8) | data[0]);
-      red = ((data[3] << 8) | data[2]);
-      green = ((data[5] << 8) | data[4]);
-      blue = ((data[7] << 8) | data[6]);
-
-      // Calculate lux
-      float lux
-          = (-0.32466) * (red) + (1.57837) * (green) + (-0.73191) * (blue);
-      if (lux < 0)
-        {
-          lux = 0;
-        }
-
-      // Output data to screen
-      printf ("Red color : %d lux \n", red);
-      printf ("Green color : %d lux \n", green);
-      printf ("Blue color : %d lux \n", blue);
-      printf ("IR : %d lux \n", cData);
-      printf ("Ambient Light : %.2f lux \n", lux);
-      usleep (500000);
+      printf ("Erorr : Input/output Erorr \n");
+      return -1;
     }
 
-  close (fd);
+  *c = ((data[1] << 8) | data[0]);
+  *r = ((data[3] << 8) | data[2]);
+  *g = ((data[5] << 8) | data[4]);
+  *b = ((data[7] << 8) | data[6]);
 
-  exit (EXIT_SUCCESS);
+  return 1;
+}
+
+void clean(void) {
+  close(fd);
 }
