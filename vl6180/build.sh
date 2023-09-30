@@ -4,4 +4,7 @@ set -xe
 
 gcc src/*.c  -o output -I inc
 
-./output
+if [ $? == 0]
+then
+  ./output
+fi
