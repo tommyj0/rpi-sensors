@@ -2,5 +2,6 @@
 
 set -xe
 
-gcc src/*.c main.c -o output
-./bin/output
+gcc src/*.c  -o output -I inc
+
+./output

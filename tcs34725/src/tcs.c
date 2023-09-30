@@ -15,10 +15,17 @@
 int fd;
 uint8_t reg[1] = {0x94};
 uint8_t data[8] = {0};
-uint8_t buff[2];
+uint8_t buff[4];
 
-void init ()
-{
+void i2c_write (int fd, uint8_t buff[4], int bytes){
+  if (write (fd, buff, bytes) != bytes)
+  {
+    printf ("FAILED TO WRITE %hhn \r\n", buff);
+    exit (EXIT_FAILURE);
+  }
+}
+
+void init () {
   // SETUP SHIT
   fd = open (I2C_DEVICE, O_RDWR);
   if (fd < 0)
@@ -36,46 +43,30 @@ void init ()
   buff[0] = ENABLE;
   buff[1] = ENABLE_BOTH;
 
-  if (write (fd, buff, 2) != 2)
-    {
-      printf ("ENABLE INITIATION FAILED\r\n");
-      exit (EXIT_FAILURE);
-    }
+  i2c_write(fd,buff,2);
 
   buff[0] = ATIME;
   buff[1] = 0x00;
 
-  if (write (fd, buff, 2) != 2)
-    {
-      printf ("ATIME INITIATION FAILED\r\n");
-      exit (EXIT_FAILURE);
-    }
+  i2c_write(fd,buff,2);
 
   buff[0] = WTIME;
   buff[1] = 0xFF;
 
-  if (write (fd, buff, 2) != 2)
-    {
-      printf ("WAIT TIME INITIATION FAILED\r\n");
-      exit (EXIT_FAILURE);
-    }
+  i2c_write(fd,buff,2);
 
   buff[0] = CONTROL;
   buff[1] = 0x00;
 
-  if (write (fd, buff, 2) != 2)
-    {
-      printf ("CONTROL INITIATION FAILED\r\n");
-      exit (EXIT_FAILURE);
-    }
+  i2c_write(fd,buff,2);
 }
-
 void clean(void) {
   close(fd);
 }
 
 int get_data (uint16_t * c, uint16_t * r, uint16_t * g, uint16_t * b) {
   init();
+  usleep(5);
 
   write (fd, reg, 1);
 
@@ -91,6 +82,6 @@ int get_data (uint16_t * c, uint16_t * r, uint16_t * g, uint16_t * b) {
   *b = ((data[7] << 8) | data[6]);
 
   clean();
-  
+
   return 1;
 }
