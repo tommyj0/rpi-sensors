@@ -7,8 +7,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-int
-read_byte (int handle, int reg)
+int read_byte (int handle, int reg)
 {
   char data_write[2];
   char data_read[1];
@@ -20,8 +19,7 @@ read_byte (int handle, int reg)
   return data_read[0];
 }
 
-void
-write_byte (int handle, int reg, char data)
+void write_byte (int handle, int reg, char data)
 {
   char data_write[3];
   data_write[0] = (reg >> 8) & 0xFF;
@@ -31,8 +29,7 @@ write_byte (int handle, int reg, char data)
   write (handle, data_write, 3);
 }
 
-void
-write_two_bytes (int handle, int reg, int data)
+void write_two_bytes (int handle, int reg, int data)
 {
   char data_write[4];
   data_write[0] = (reg >> 8) & 0xFF;
@@ -44,14 +41,12 @@ write_two_bytes (int handle, int reg, int data)
   write (handle, data_write, 4);
 }
 
-void
-start_range (int handle)
+void start_range (int handle)
 {
   write_byte (handle, 0x018, 0x01);
 }
 
-void
-poll_range (int handle)
+void poll_range (int handle)
 {
   char status;
   char range_status;
@@ -68,14 +63,12 @@ poll_range (int handle)
     }
 }
 
-void
-clear_interrupts (int handle)
+void clear_interrupts (int handle)
 {
   write_byte (handle, 0x015, 0x07);
 }
 
-void
-set_scaling (int handle, int new_scaling)
+void set_scaling (int handle, int new_scaling)
 {
 
   int scalerValues[] = { 0, 253, 127, 84 };
@@ -94,8 +87,7 @@ set_scaling (int handle, int new_scaling)
   write_byte (handle, 0x2d, (rce & 0xFE) | (new_scaling == 1));
 }
 
-int
-vl6180_initialise_address (int device, int addr)
+int vl6180_initialise_address (int device, int addr)
 {
   int handle = -1;
   char buf[15];
@@ -180,21 +172,18 @@ vl6180_initialise_address (int device, int addr)
 
 // USER FUNCTIONS
 
-int
-vl6180_initialise (int device)
+int vl6180_initialise (int device)
 {
   return vl6180_initialise_address (device, VL6180_DEFAULT_ADDR);
 }
 
-void
-vl6180_change_addr (int handle, int newAddr)
+void vl6180_change_addr (int handle, int newAddr)
 {
   write_byte (handle, 0x0212, newAddr);
   ioctl (handle, I2C_SLAVE, newAddr);
 }
 
-int
-get_distance (int handle)
+int get_distance (int handle)
 {
 
   int range;

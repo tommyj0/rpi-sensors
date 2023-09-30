@@ -24,8 +24,4 @@
 #define CONTROL             (0x8F)
 #define DATA                (0x94)
 
-void init(void);
-
 int get_data(uint16_t*,uint16_t*, uint16_t*, uint16_t*);
-
-void clean(void);

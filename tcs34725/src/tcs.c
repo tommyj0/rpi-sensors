@@ -16,10 +16,6 @@ int fd;
 uint8_t reg[1] = {0x94};
 uint8_t data[8] = {0};
 uint8_t buff[2];
-int cData;
-// uint16_t red;
-// uint16_t green;
-// uint16_t blue;
 
 void init ()
 {
@@ -74,7 +70,12 @@ void init ()
     }
 }
 
+void clean(void) {
+  close(fd);
+}
+
 int get_data (uint16_t * c, uint16_t * r, uint16_t * g, uint16_t * b) {
+  init();
 
   write (fd, reg, 1);
 
@@ -89,9 +90,7 @@ int get_data (uint16_t * c, uint16_t * r, uint16_t * g, uint16_t * b) {
   *g = ((data[5] << 8) | data[4]);
   *b = ((data[7] << 8) | data[6]);
 
+  clean();
+  
   return 1;
-}
-
-void clean(void) {
-  close(fd);
 }
