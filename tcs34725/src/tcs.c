@@ -68,9 +68,9 @@ int get_RGB_data (uint16_t * c, uint16_t * r, uint16_t * g, uint16_t * b) {
   init_TCS();
   usleep(5);
 
-  write (fd, reg, 1);
+  write(fd, reg, 1);
 
-  if (read (fd, data, 8) != 8)
+  if (read(fd, data, 8) != 8)
     {
       printf ("Erorr : Input/output Erorr \n");
       return -1;

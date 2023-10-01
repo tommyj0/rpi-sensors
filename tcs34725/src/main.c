@@ -7,7 +7,7 @@ int main(){
   uint16_t blue;
   float lux;
 
-  get_TCS_data(&clear,&red, &green, &blue);
+  get_TCS_data(&clear, &red, &green, &blue);
 
   lux = (-0.32466) * (red) + (1.57837) * (green) + (-0.73191) * (blue);
   if (lux < 0)
