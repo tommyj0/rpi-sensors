@@ -1,6 +1,8 @@
 {
   "files.associations": {
     "tcs.h": "c",
-    "unistd.h": "c"
+    "unistd.h": "c",
+    "errno.h": "c",
+    "i2c-dev.h": "c"
   }
 }

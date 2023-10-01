@@ -1,19 +1,6 @@
 #include "tcs.h"
-#include <errno.h>
-#include <fcntl.h>
-#include <linux/i2c-dev.h>
-#include <linux/ioctl.h>
-#include <linux/types.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/ioctl.h>
-#include <sys/stat.h>
-#include <unistd.h>
 
 int fd;
-uint8_t reg[1] = {0x94};
 uint8_t data[8] = {0};
 uint8_t buff[4];
 
@@ -68,7 +55,7 @@ int get_RGB_data (uint16_t * c, uint16_t * r, uint16_t * g, uint16_t * b) {
   init_TCS();
   usleep(5);
 
-  write(fd, reg, 1);
+  write(fd, REG, 1);
 
   if (read(fd, data, 8) != 8)
     {
